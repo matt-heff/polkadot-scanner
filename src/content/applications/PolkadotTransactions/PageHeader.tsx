@@ -88,8 +88,10 @@ function PageHeader() {
     fetchPolkadotTransactions();
   }
 
+  //This function uses the existing API connection and will fetch all the
+  //blocks the user wants to examine.
+
   async function fetchPolkadotTransactions() {
-    //check we have a real API thign
     setIsScanning(true);
     let listOfExtrinsics = new Array<extrinsicListType>();
     console.log(`---------------------------------------------------`);
@@ -154,6 +156,7 @@ function PageHeader() {
     setIsScanning(false);
   }
 
+  // Establish connection to the specified RPC Provider
   async function getPolkadotAPI() {
     console.log('polkadotAPI', rpcAddress);
     const wsProvider = new WsProvider(rpcAddress);
