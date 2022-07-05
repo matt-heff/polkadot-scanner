@@ -1,5 +1,6 @@
 {
   "name": "polkadot-scacnner",
+  "homepage": "https://matt-heff.github.io/polkadot-scanner/",
   "version": "2.0.0",
   "title": "Polkadot Scanner",
   "description": "Polkadot Scanner and experiment with Tokyo Free Black React Typescript.",
@@ -21,6 +22,7 @@
     "apexcharts": "3.35.3",
     "clsx": "1.1.1",
     "date-fns": "2.28.0",
+    "gh-pages": "^4.0.0",
     "history": "5.3.0",
     "nprogress": "0.2.0",
     "numeral": "2.0.6",
@@ -42,6 +44,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint .",
