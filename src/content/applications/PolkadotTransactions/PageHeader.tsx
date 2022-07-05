@@ -107,6 +107,8 @@ function PageHeader() {
       const eventTopics = await apiAt.query.system.eventTopics(blockHash);
       const methods = await apiState.rpc.rpc.methods();
 
+      //these comments below are just me trying to figure out
+      // what it is we get in the data
       console.log(`***${events_}******`);
       console.log(`***${countEvents}******`);
       console.log(`***${eventTopics}******`);
@@ -118,7 +120,8 @@ function PageHeader() {
 
       setlastFetchedBlock(blockNum);
       const signedBlock = await apiState.rpc.chain.getBlock(blockHash);
-      //console.log(`Signed Block : ${signedBlock}, `);
+
+      //Collate each extrinsic and format the data for displaying in the UI table
       signedBlock.block.extrinsics.forEach((ex, index) => {
         // the extrinsics are decoded by the API, human-like view
         console.log('human view of extrinsics');
@@ -129,6 +132,7 @@ function PageHeader() {
           method: { args, method, section }
         } = ex;
 
+        //struct that will be used for our table data
         listOfExtrinsics.push({
           key: blockNum.toString() + index.toString(),
           blockNumber: blockNum,
@@ -149,12 +153,12 @@ function PageHeader() {
     setExtrinsicList([...listOfExtrinsics]);
     setIsScanning(false);
   }
+
   async function getPolkadotAPI() {
     console.log('polkadotAPI', rpcAddress);
     const wsProvider = new WsProvider(rpcAddress);
 
     // Create the API and wait until ready
-
     const api = await ApiPromise.create({ provider: wsProvider });
     const [chain, nodeName, nodeVersion, lastHeader] = await Promise.all([
       api.rpc.system.chain(),
@@ -255,8 +259,6 @@ function PageHeader() {
     } else if (currentSortName !== colNameClicked) {
       setSort({ column: colNameClicked, direction: updateSortDirection });
     }
-
-    //sort the extrinsicList // update pagination list /
   };
 
   useEffect(() => {
@@ -273,6 +275,7 @@ function PageHeader() {
     // When this is triggered we update the output to display the latest in the table
     setEndBlock(initialEndBlock);
     setExtrinsicListPaginated([
+      //each time the extrinsic list is updated refresh the formatted table data
       ...applyPagination(applySort(extrinsicList), page, limit)
     ]);
   }, [
